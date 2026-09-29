@@ -1,0 +1,166 @@
+import { BidProject, RfpRequirement, DisqualificationRule, QuantitativeScoreDetail } from './types';
+
+export const MOCK_BID_PROJECTS: BidProject[] = [
+  {
+    id: 'proj-nia-ai-portal',
+    announcementNo: '202609-48215-00',
+    title: '2026년 차세대 지능형 공공 행정 포털 통합 구축 사업',
+    issuingAgency: '한국지능정보사회진흥원 (NIA) / 행정안전부',
+    budgetKrw: 4500000000, // 45억 원
+    submissionDeadline: '2026-10-15 14:00',
+    contractMethod: '협상에 의한 계약 (기술 90 : 가격 10)',
+    industryCategory: '소프트웨어사업 / 정보시스템구축 (대기업 참여제한)',
+  },
+  {
+    id: 'proj-gyeonggi-smart-city',
+    announcementNo: '202609-31902-01',
+    title: '지자체 통합 스마트 도시 안전망 관제 플랫폼 고도화 용역',
+    issuingAgency: '경기도청 미래안전과',
+    budgetKrw: 1850000000, // 18억 5,000만 원
+    submissionDeadline: '2026-10-22 11:00',
+    contractMethod: '협상에 의한 계약 (기술 80 : 가격 20)',
+    industryCategory: '소프트웨어사업 / 시스템통합(SI)',
+  },
+  {
+    id: 'proj-kist-iot-sensor',
+    announcementNo: '202609-11029-00',
+    title: '국가 R&D 실험실 실시간 정밀 환경 모니터링 IoT 관측 장비 공급',
+    issuingAgency: '한국과학기술연구원 (KIST)',
+    budgetKrw: 820000000, // 8억 2,000만 원
+    submissionDeadline: '2026-10-28 15:00',
+    contractMethod: '제한경쟁입찰 (규격/가격 동시 입찰)',
+    industryCategory: '물품구매 / 제조구매',
+  },
+];
+
+export const INITIAL_REQUIREMENTS: RfpRequirement[] = [
+  {
+    code: 'SFR-001',
+    category: '기능요구사항',
+    title: '행정전자서명(GPKI) 및 통합 SSO 인증 체계 연동',
+    rfpText: '제안사는 국가 행정업무 표준 전자서명(GPKI/EPKI) 및 OAuth 2.0 기반 SSO 연동을 완벽히 구현하여 공무원 1차 인증 및 2차 FIDO 다중인증을 지원해야 한다.',
+    mandatory: true,
+    complianceStatus: 'COMPLIANT',
+    matchedProposalSection: '제3장 1절. 인증 아키텍처 (p.42~45)',
+    confidenceScore: 96,
+  },
+  {
+    code: 'SEC-001',
+    category: '보안요구사항',
+    title: '국정원 검증 암호모듈(KCMVP) 탑재 및 소스코드 보안취약점 점검',
+    rfpText: '개인정보 및 중요 행정 데이터 암호화는 반드시 국정원 검증 필 암호모듈(KCMVP)을 탑재해야 하며, 행안부 소프트웨어 보안약점 진단 가이드 49개 기준을 100% 충족해야 한다.',
+    mandatory: true,
+    complianceStatus: 'RISK',
+    matchedProposalSection: '제4장 2절. 정보보안 대책 (p.88)',
+    confidenceScore: 68,
+    riskNotes: '제안서에 국정원 암호모듈 검증번호(KCMVP 검증필 제품명) 명시 누락됨. 평가위원 감점 위험 높음.',
+  },
+  {
+    code: 'QUR-001',
+    category: '품질요구사항',
+    title: '동시 접속 10,000명 기준 트랜잭션 응답시간 1.5초 이내 보장',
+    rfpText: '피크타임 기준 동시 접속자 10,000명 환경에서 전사 포털 메인 및 결재 화면 로딩 속도는 1.5초 이내를 유지해야 하며, 부하 테스트 공인성적서(KOLAS 인증)를 납품 시 제출해야 한다.',
+    mandatory: true,
+    complianceStatus: 'COMPLIANT',
+    matchedProposalSection: '제3장 4절. 시스템 성능 설계 (p.64~68)',
+    confidenceScore: 92,
+  },
+  {
+    code: 'CON-001',
+    category: '제약사항',
+    title: '전자정부 표준프레임워크 최신 4.2 버전 이상 기반 구축',
+    rfpText: '모든 컴포넌트 아키텍처는 전자정부 표준프레임워크(eGovFrame) v4.2 이상 호환성 인증 레벨2 이상을 충족해야 하며 오픈소스 라이선스 위반이 없어야 한다.',
+    mandatory: true,
+    complianceStatus: 'COMPLIANT',
+    matchedProposalSection: '제2장 2절. 기술 프레임워크 (p.24)',
+    confidenceScore: 98,
+  },
+  {
+    code: 'PMR-001',
+    category: '프로젝트관리',
+    title: '핵심 개발인력(PM/PL) 전원 100% 상주 근무 및 교체 금지 서약',
+    rfpText: '사업총괄관리자(PM) 및 핵심 기술 PL은 본 사업 착수일부터 완료일까지 발주처 지정 장소에 100% 상주하여야 하며, 불가피한 사유 외 인력 교체를 엄격히 금지한다.',
+    mandatory: true,
+    complianceStatus: 'NON_COMPLIANT',
+    matchedProposalSection: '제5장 1절. 사업수행조직 (p.112)',
+    confidenceScore: 45,
+    riskNotes: '제안서 투입인력 계획표에 PM 투입률이 80%로 표기되어 있어 제안요청서 필수 조건(100% 상주) 위반 상태임! 즉각 100%로 수정 필수.',
+  },
+];
+
+export const INITIAL_DISQUALIFICATION_RULES: DisqualificationRule[] = [
+  {
+    id: 'rule-blind-violation',
+    ruleTitle: '제안서 블라인드 평가 지침 위반 (회사명·로고 식별 표기)',
+    legalBasis: '조달청 협상에 의한 계약 제안서 평가세부기준 제10조 제2항',
+    description: '기술제안서 본문 및 요약서에 제안사명, 로고, 대표자명 등 특정 기업을 유추할 수 있는 표식 삽입 시 건당 0.5점~1점 감점 또는 실격 처리.',
+    severity: 'FATAL',
+    status: 'FAIL',
+    findingMessage: '제안서 p.14, p.52 머리글(Header)에 "[주식회사 OOO]" 회사 로고 및 회사명이 잔존하여 블라인드 규정 위반 검출!',
+    remediationAction: '워터마크, 머리글/바닥글, 다이어그램 내 회사명을 모두 "제안사" 또는 익명 코드로 치환 필수.',
+  },
+  {
+    id: 'rule-direct-production',
+    ruleTitle: '직접생산확인증명서(직생) 세부품명 및 유효기간',
+    legalBasis: '중소기업제품 구매촉진 및 판로지원에 관한 법률 제9조',
+    description: '입찰 공고에 지정된 세부품명번호(8111159901 정보시스템개발서비스)에 대한 유효한 직접생산확인증명서 미보유 시 무효 입찰 처리.',
+    severity: 'FATAL',
+    status: 'PASS',
+    findingMessage: '세부품명: 8111159901 (유효기간: 2027-04-18까지로 정상 확인됨)',
+    remediationAction: '정상 충족.',
+  },
+  {
+    id: 'rule-credit-rating',
+    ruleTitle: '신용평가등급확인서 조달청 등록 및 유효기간 만료 여부',
+    legalBasis: '조달청 협상에 의한 계약 제안서 평가세부기준 [별표 1]',
+    description: '입찰마감일 기준 공공입찰용 신용평가등급(NICE, 나이스평가정보, 한국기업데이터 등)이 나라장터 전산망에 등록되어 있어야 함.',
+    severity: 'FATAL',
+    status: 'PASS',
+    findingMessage: '신용평가등급 A- (유효기간: 2026-12-31까지로 정상 등록 확인)',
+    remediationAction: '정상 충족.',
+  },
+  {
+    id: 'rule-unjust-contractor',
+    ruleTitle: '부정당업자 입찰참가자격 제한(영업정지/제재) 여부',
+    legalBasis: '국가를 당사자로 하는 계약에 관한 법률 제27조',
+    description: '입찰공고일 현재 부정당업자 제재 처분 기간 중에 있는 자는 입찰에 참가할 수 없으며 발견 즉시 부적격 처리.',
+    severity: 'FATAL',
+    status: 'PASS',
+    findingMessage: '조달청 나라장터 부정당업자 제재 처분 이력 0건 (결격사유 없음)',
+    remediationAction: '정상 충족.',
+  },
+  {
+    id: 'rule-seal-signature',
+    ruleTitle: '필수 별지 서식(청렴계약서, 하도급계획서) 법인인감 날인 누락',
+    legalBasis: '용역입찰유의서 제12조(입찰의 무효)',
+    description: '별지 제1호~제7호 서식 중 입찰참가신청서 및 청렴서약서에 법인인감(또는 사용인감) 미날인 시 서류 미비로 자동 탈락.',
+    severity: 'WARNING',
+    status: 'REVIEW_NEEDED',
+    findingMessage: '별지 제4호 "청렴계약이행서약서" 및 별지 제6호 서식 하단 서명란에 인감 도장 이미지 미삽입 상태.',
+    remediationAction: '제출 전 법인인감도장 날인 후 스캔본 첨부 필수.',
+  },
+];
+
+export const INITIAL_QUANTITATIVE_SCORES: QuantitativeScoreDetail[] = [
+  {
+    category: '경영상태 (신용평가등급)',
+    maxScore: 10.0,
+    assignedScore: 9.5,
+    criteria: 'A- 등급 (9.5점 배점 기준표 충족)',
+    notes: 'A0 이상 시 10점 만점이나 A-로 0.5점 차등 적용',
+  },
+  {
+    category: '수행실적 (최근 3년간 유사사업 실적)',
+    maxScore: 10.0,
+    assignedScore: 10.0,
+    criteria: '고시금액 대비 실적 합계 250% 달성 (만점 기준 100% 초과)',
+    notes: '공공 포털 구축 실적 3건 인정됨 (10점 만점)',
+  },
+  {
+    category: '기술인력 보유상태',
+    maxScore: 10.0,
+    assignedScore: 10.0,
+    criteria: '특급기술자 4인, 고급기술자 6인 이상 보유 증빙',
+    notes: '소프트웨어산업협회(KOSA) 경력증명서 첨부 완료',
+  },
+];
